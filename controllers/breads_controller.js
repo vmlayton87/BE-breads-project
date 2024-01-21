@@ -7,7 +7,7 @@ breads.get(`/`, (req, res)=>{
     res.send(Bread)
 })
 
-// ROUTE
+// SHOW
 breads.get(`/:arrayIndex`, (req, res)=>{
     res.send(Bread[req.params.arrayIndex])
 })
