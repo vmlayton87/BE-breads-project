@@ -7,7 +7,9 @@ breads.get(`/`, (req, res)=>{
     // render says to render the html on the page
     res.render(`index`, 
         {
-            breads:Bread
+            breads:Bread,
+            title: `Index Page`
+
         }
     )
     // send says to send exactly what you see as text
