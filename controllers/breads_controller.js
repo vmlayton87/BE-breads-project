@@ -4,7 +4,14 @@ const Bread = require(`../models/bread.js`)
 
 // INDEX
 breads.get(`/`, (req, res)=>{
-    res.send(Bread)
+    // render says to render the html on the page
+    res.render(`index`, 
+        {
+            breads:Bread
+        }
+    )
+    // send says to send exactly what you see as text
+    //res.send(Bread)
 })
 
 // SHOW
