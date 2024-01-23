@@ -4,7 +4,7 @@ const Bread = require(`../models/bread.js`)
 
 // INDEX
 breads.get(`/`, (req, res)=>{
-    // render says to render the html on the page
+    // render:to render the html on the page
     res.render(`index`, 
         {
             breads:Bread,
@@ -12,7 +12,7 @@ breads.get(`/`, (req, res)=>{
 
         }
     )
-    // send says to send exactly what you see as text
+    // send: to send exactly what you see as text
     //res.send(Bread)
 })
 
