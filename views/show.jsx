@@ -17,6 +17,7 @@ function Show ({bread}) {
             have gluten.
         </p>
         <img src={bread.image} alt={bread.name} />
+        <li><a href="/breads">Go Home</a></li>
       </Default>
     )
 }
