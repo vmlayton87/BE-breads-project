@@ -1,5 +1,5 @@
 const React = require('react')
-const Default = require('./layouts/Default')
+const Default = require('./layouts/default')
 
 function New () {
     return (
@@ -11,6 +11,7 @@ function New () {
             type="text"
             name="name"
             id="name"
+            placeholder="Bread name or type"
             required
           />
           <label htmlFor="image">Image</label>
