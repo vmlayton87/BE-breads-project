@@ -4,14 +4,16 @@ const Bread = require(`../models/bread.js`)
 
 // INDEX
 breads.get(`/`, (req, res)=>{
-    // render:to render the html on the page
-    res.render(`index`, 
+    // find helper method on bread model
+    Bread.find()
+      .then((foundBreads)=>{
+        // render:to render the html on the page
+        res.render(`index`, 
         {
-            breads:Bread,
+            breads: foundBreads,
             title: `Index Page`
-
-        }
-    )
+        })
+      })
     // send: to send exactly what you see as text
     //res.send(Bread)
 })
