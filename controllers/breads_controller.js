@@ -34,15 +34,24 @@ breads.get('/:indexArray/edit', (req, res) => {
 
 
 // SHOW a page that shows the individual info of one bread type
-breads.get('/:arrayIndex', (req, res) => {
-    if (Bread[req.params.arrayIndex]) {
-      res.render('Show', {
-        bread:Bread[req.params.arrayIndex],
-        index: req.params.arrayIndex,
+breads.get('/:id', (req, res) => {
+    Bread.findById(req.params.id)
+      .then((foundBread)=>{
+        res.render('show', {
+              bread:foundBread
+            })
       })
-    } else {
-      res.render('404')
-    }
+      .catch(err=>{res.render(`404`)})  
+
+    // before moongoose
+    // if (Bread[req.params.arrayIndex]) {
+    //   res.render('Show', {
+    //     bread:Bread[req.params.arrayIndex],
+    //     index: req.params.arrayIndex,
+    //   })
+    // } else {
+    //   res.render('404')
+    // }
   })
 
 
