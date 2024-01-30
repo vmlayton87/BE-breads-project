@@ -19,7 +19,7 @@ const app = express()
 // I do believe this is the best practice for our assignment. but this will work for one database. the createconnection and as promise will work for multiple databases. 
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('connected to mongo: ', process.env.MONGO_URI))
 
-//WORKS WITH THE OPTIONS
+//WORKS? WITH THE OPTIONS
 // maps a single database within a connection. this was in zoom chat, still getting deprecated warning
 // mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => console.log('connected to mongo: ', process.env.MONGO_URI))
 
