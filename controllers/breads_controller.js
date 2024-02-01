@@ -2,7 +2,7 @@ const express = require(`express`)
 const breads = express.Router()
 const Bread = require(`../models/bread.js`)
 
-// INDEX
+// INDEX show's a list of each bread name
 breads.get(`/`, (req, res)=>{
     // find helper method on bread model (mongoose/mongoDB)
     Bread.find()
@@ -18,17 +18,17 @@ breads.get(`/`, (req, res)=>{
     //res.send(Bread)
 })
 
-// NEW
+// NEW add places form
 breads.get('/new', (req, res) => {
     res.render('new')
 })
 
-//EDIT a bread item
+//EDIT a bread item.  takes you to a form to edit the info
 // EDIT
-breads.get('/:indexArray/edit', (req, res) => {
+breads.get('/:id/edit', (req, res) => {
   res.render('edit', {
-    bread: Bread[req.params.indexArray],
-    index: req.params.indexArray
+    bread: Bread[req.params.id],
+    index: req.params.id
   })
 })
 
@@ -55,7 +55,7 @@ breads.get('/:id', (req, res) => {
   })
 
 
-// CREATE because the form method is post, it uses this route to create a new bread item in the model. it uses the variable named above and .push to add a new item. the redirect takes you back to the main index page.
+// CREATE because the form method is post, it uses this route to create a new bread item in the model. it uses the variable named above and .push to add a new item. the redirect takes you back to the main index page. refrences the post method from the new form.
 breads.post('/', (req, res) => {
     if (!req.body.image) {
       req.body.image = undefined
@@ -69,21 +69,23 @@ breads.post('/', (req, res) => {
     res.redirect('/breads')
   })
 
-  // UPDATE a bread item
-breads.put(`/:arrayIndex`, (req, res)=>{
+  // UPDATE a bread item same idea as the create, but instead, it takes changed information instead.
+breads.put(`/:id`, (req, res)=>{
   if(req.body.hasGluten === 'on') {
     req.body.hasGluten = true
   } else {
     req.body.hasGluten = false
   }
-  Bread[req.params.arrayIndex]=req.body
-  res.redirect(`/breads/${req.params.arrayIndex}`)
+  Bread[req.params.id]=req.body
+  res.redirect(`/breads/${req.params.id}`)
 })
 
   // DELETE a bread object
-  breads.delete(`/:indexArray`, (req, res)=>{
-    Bread.splice(req.params.indexArray, 1)
-    res.status(303).redirect(`/breads`)
+  breads.delete(`/:id`, (req, res)=>{
+    Bread.findByIdAndDelete(req.params.id)
+    .then(res.status(303).redirect(`/breads`))
+    .catch(err=>{res.render(`404`)}) 
+    
   })
 
 module.exports = breads
