@@ -14,6 +14,9 @@ breads.get(`/`, (req, res)=>{
             title: `Index Page`
         })
       })
+      .catch(err=>{
+        console.log(err)
+        res.render(`404`)})  
     // send: to send exactly what you see as text
     //res.send(Bread)
 })
@@ -23,13 +26,26 @@ breads.get('/new', (req, res) => {
     res.render('new')
 })
 
+// inserts many breads at a time from a file
+breads.get('/data/seed', (req, res) => {
+  Bread.insertMany(Seed)
+  .then()
+  res.render('new')
+})
+
+
 //EDIT a bread item.  takes you to a form to edit the info
 // EDIT
 breads.get('/:id/edit', (req, res) => {
-  res.render('edit', {
-    bread: Bread[req.params.id],
-    index: req.params.id
+  Bread.findById(req.params.id)
+  .then((foundBread)=>{
+    res.render('edit', {
+      bread: foundBread,
+    })
   })
+  .catch(err=>{
+    console.log(err)
+    res.render(`404`)}) 
 })
 
 
@@ -41,7 +57,9 @@ breads.get('/:id', (req, res) => {
               bread:foundBread
             })
       })
-      .catch(err=>{res.render(`404`)})  
+      .catch(err=>{
+        console.log(err)
+        res.render(`404`)})  
 
     // before moongoose
     // if (Bread[req.params.arrayIndex]) {
@@ -66,7 +84,10 @@ breads.post('/', (req, res) => {
       req.body.hasGluten = false
     }
     Bread.create(req.body)
-    res.redirect('/breads')
+    .then(res.redirect('/breads'))
+    .catch(err=>{
+      console.log(err)
+      res.render(`404`)})  
   })
 
   // UPDATE a bread item same idea as the create, but instead, it takes changed information instead.
@@ -76,15 +97,25 @@ breads.put(`/:id`, (req, res)=>{
   } else {
     req.body.hasGluten = false
   }
-  Bread[req.params.id]=req.body
-  res.redirect(`/breads/${req.params.id}`)
+  // the new option helps to make sure it returns the changed information and not the original information
+  Bread.findByIdAndUpdate(req.params.id, req.body, {new:true})
+  .then((updatedBread)=>{
+    console.log(updatedBread)
+    res.redirect(`/breads/${req.params.id}`)
+  })
+  .catch(err=>{
+    console.log(err)
+    res.render(`404`)})  
+  
 })
 
   // DELETE a bread object
   breads.delete(`/:id`, (req, res)=>{
     Bread.findByIdAndDelete(req.params.id)
     .then(res.status(303).redirect(`/breads`))
-    .catch(err=>{res.render(`404`)}) 
+    .catch(err=>{
+      console.log(err)
+      res.render(`404`)})  
     
   })
 

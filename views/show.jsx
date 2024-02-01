@@ -3,6 +3,7 @@ const Default = require('./layouts/default')
 
 function Show ({bread}) {
   console.log(bread.name)
+  console.log(bread)
     return (
       <Default>
         <h2>Show Page</h2>
