@@ -1,6 +1,7 @@
 const express = require(`express`)
 const breads = express.Router()
 const Bread = require(`../models/bread.js`)
+const Seed = require(`../models/seed.js`)
 
 // INDEX show's a list of each bread name
 breads.get(`/`, (req, res)=>{
@@ -29,8 +30,10 @@ breads.get('/new', (req, res) => {
 // inserts many breads at a time from a file
 breads.get('/data/seed', (req, res) => {
   Bread.insertMany(Seed)
-  .then()
-  res.render('new')
+  .then(createdBreads=>{
+    res.redirect(`/breads`)
+  })
+  
 })
 
 
@@ -43,9 +46,6 @@ breads.get('/:id/edit', (req, res) => {
       bread: foundBread,
     })
   })
-  .catch(err=>{
-    console.log(err)
-    res.render(`404`)}) 
 })
 
 
@@ -85,9 +85,6 @@ breads.post('/', (req, res) => {
     }
     Bread.create(req.body)
     .then(res.redirect('/breads'))
-    .catch(err=>{
-      console.log(err)
-      res.render(`404`)})  
   })
 
   // UPDATE a bread item same idea as the create, but instead, it takes changed information instead.
@@ -100,7 +97,6 @@ breads.put(`/:id`, (req, res)=>{
   // the new option helps to make sure it returns the changed information and not the original information
   Bread.findByIdAndUpdate(req.params.id, req.body, {new:true})
   .then((updatedBread)=>{
-    console.log(updatedBread)
     res.redirect(`/breads/${req.params.id}`)
   })
   .catch(err=>{
