@@ -10,7 +10,16 @@ const breadSchema = new Schema ({
   name: { type: String, required:true },
   hasGluten: Boolean,
   image:{ type: String, default: `http://placekitten.com/200/400` },
+  baker: {
+    type: String,
+    enum: ['Rachel', 'Monica', 'Joey', 'Chandler', 'Ross', 'Phoebe']
+  }
 })
+
+// helper methods done for each document/instance
+breadSchema.methods.getBakedBy = function(){
+  return `${this.name} was baked with love by ${this.baker}`
+}
 
 // creating a model named Bread out of the schema
 const Bread = mongoose.model('Bread', breadSchema)

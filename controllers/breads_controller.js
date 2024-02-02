@@ -15,9 +15,7 @@ breads.get(`/`, (req, res)=>{
             title: `Index Page`
         })
       })
-      .catch(err=>{
-        console.log(err)
-        res.render(`404`)})  
+      
     // send: to send exactly what you see as text
     //res.send(Bread)
 })
@@ -53,13 +51,13 @@ breads.get('/:id/edit', (req, res) => {
 breads.get('/:id', (req, res) => {
     Bread.findById(req.params.id)
       .then((foundBread)=>{
+        const bakedBy = foundBread.getBakedBy()
+        console.log(bakedBy)
         res.render('show', {
               bread:foundBread
             })
       })
-      .catch(err=>{
-        console.log(err)
-        res.render(`404`)})  
+       
 
     // before moongoose
     // if (Bread[req.params.arrayIndex]) {
@@ -85,6 +83,9 @@ breads.post('/', (req, res) => {
     }
     Bread.create(req.body)
     .then(res.redirect('/breads'))
+    .catch(err=>{
+      console.log(err)
+      res.render(`404`)})  
   })
 
   // UPDATE a bread item same idea as the create, but instead, it takes changed information instead.
