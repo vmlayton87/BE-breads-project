@@ -52,19 +52,23 @@ breads.get('/:id', (req, res) => {
    
    Bread.getAllBakedBy(`Ross`)
       .then((foundBaker) => { 
-        let breadsByBaker = foundBaker
+        // empty array
+        let breadsByBaker = []
+        // fills the array with only the values for name of bread
+        Object.values(foundBaker).forEach(key => breadsByBaker.push(key.name))
         console.log(`Trying to find Ross: `, breadsByBaker)
-// still working on the static method
+// still working on the static method: got an array of only  bread names, but it becomes undefined in show.jsx
+        
         Bread.findById(req.params.id)
-        .then((foundBread)=>{
-          const bakedBy = foundBread.getBakedBy()
-          console.log(bakedBy)
-          res.render('show', {
-                bread:foundBread,
-                OtherBreads: foundBaker
-              })
+          .then((foundBread)=>{
+            const bakedBy = foundBread.getBakedBy()
+            console.log(bakedBy)
+            res.render('show', {
+                  bread:foundBread,
+                  OtherBreads: breadsByBaker
+                })
+          })
         })
-      })
       
     })
    

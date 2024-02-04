@@ -22,7 +22,7 @@ breadSchema.methods.getBakedBy = function(){
 }
 
 breadSchema.statics.getAllBakedBy = function (bakerName) {
-  return this.find({baker: bakerName}, {name:1})
+  return this.find({baker: bakerName}, {_id:0, name:1})
 }
 
 // creating a model named Bread out of the schema

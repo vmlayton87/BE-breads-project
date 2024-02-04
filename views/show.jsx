@@ -3,7 +3,7 @@ const Default = require('./layouts/default')
 
 
 function Show ({bread, otherBreads}) {
-  console.log(`other breads inside show return: ` ,otherBreads)
+  console.log(`other breads inside show return: ` , otherBreads)
     return (
       <Default>
         <h2>Show Page</h2>
