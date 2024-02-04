@@ -4,21 +4,24 @@ const Bread = require(`../models/bread.js`)
 const Seed = require(`../models/seed.js`)
 const Baker = require(`../models/baker.js`)
 
-// INDEX show's a list of each bread name
+// INDEX show's a list of each baker and bread name
 breads.get(`/`, (req, res)=>{
-
-    // find helper method on bread model (mongoose/mongoDB)
-    Bread.find()
+  Baker.find()
+    .then(foundBakers => {
+      // find helper method on bread model (mongoose/mongoDB)
+      Bread.find()
       .populate(`baker`)
       .then((foundBreads)=>{
         // render:to render the html on the page
         res.render(`index`, 
         {
             breads: foundBreads,
+            bakers: foundBakers,
             title: `Index Page`
         })
       })
-      
+    })
+    
     // send: to send exactly what you see as text
     //res.send(Bread)
 })
@@ -62,15 +65,6 @@ breads.get('/:id/edit', (req, res) => {
 
 // SHOW a page that shows the individual info of one bread type
 breads.get('/:id', (req, res) => {
-  
-  //  Bread.getAllBakedBy(`Ross`)
-  //     .then((foundBaker) => { 
-  //       // empty array
-  //       let breadsByBaker = []
-  //       // fills the array with only the values for name of bread
-  //       Object.values(foundBaker).forEach(key => breadsByBaker.push(key.name))
-  //       console.log(`Trying to find Ross: `, breadsByBaker)
-// still working on the static method: got an array of only  bread names, but it becomes undefined in show.jsx
         
         Bread.findById(req.params.id)
           .populate(`baker`)
@@ -83,11 +77,6 @@ breads.get('/:id', (req, res) => {
           })
         })
       
-
-   
-    
-  
-       
 
     // before moongoose
     // if (Bread[req.params.arrayIndex]) {
