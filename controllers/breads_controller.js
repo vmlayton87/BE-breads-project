@@ -49,14 +49,27 @@ breads.get('/:id/edit', (req, res) => {
 
 // SHOW a page that shows the individual info of one bread type
 breads.get('/:id', (req, res) => {
-    Bread.findById(req.params.id)
-      .then((foundBread)=>{
-        const bakedBy = foundBread.getBakedBy()
-        console.log(bakedBy)
-        res.render('show', {
-              bread:foundBread
-            })
+   
+   Bread.getAllBakedBy(`Ross`)
+      .then((foundBaker) => { 
+        let breadsByBaker = foundBaker
+        console.log(`Trying to find Ross: `, breadsByBaker)
+// still working on the static method
+        Bread.findById(req.params.id)
+        .then((foundBread)=>{
+          const bakedBy = foundBread.getBakedBy()
+          console.log(bakedBy)
+          res.render('show', {
+                bread:foundBread,
+                OtherBreads: foundBaker
+              })
+        })
       })
+      
+    })
+   
+    
+  
        
 
     // before moongoose
@@ -68,7 +81,7 @@ breads.get('/:id', (req, res) => {
     // } else {
     //   res.render('404')
     // }
-  })
+
 
 
 // CREATE because the form method is post, it uses this route to create a new bread item in the model. it uses the variable named above and .push to add a new item. the redirect takes you back to the main index page. refrences the post method from the new form.

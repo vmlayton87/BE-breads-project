@@ -1,7 +1,9 @@
 const React = require('react')
 const Default = require('./layouts/default')
 
-function Show ({bread}) {
+
+function Show ({bread, otherBreads}) {
+  console.log(`other breads inside show return: ` ,otherBreads)
     return (
       <Default>
         <h2>Show Page</h2>
@@ -17,6 +19,9 @@ function Show ({bread}) {
         </p>
         <img src={bread.image} alt={bread.name} />
         <p>{bread.getBakedBy()}</p>
+        <p>Other breads made by {bread.baker}: </p>
+        
+
         <li><a href="/breads">Go Home</a></li>
         
         <a href={`/breads/${bread.id}/edit`}><button>Edit</button></a>
