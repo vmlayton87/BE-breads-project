@@ -2,6 +2,7 @@ const express = require(`express`)
 const breads = express.Router()
 const Bread = require(`../models/bread.js`)
 const Seed = require(`../models/seed.js`)
+const Baker = require(`../models/baker.js`)
 
 // INDEX show's a list of each bread name
 breads.get(`/`, (req, res)=>{
@@ -22,7 +23,12 @@ breads.get(`/`, (req, res)=>{
 
 // NEW add places form
 breads.get('/new', (req, res) => {
-    res.render('new')
+  Baker.find()
+  .then(foundBakers => {
+    res.render('new', {
+      bakers: foundBakers
+    })
+  })
 })
 
 // inserts many breads at a time from a file
@@ -49,14 +55,14 @@ breads.get('/:id/edit', (req, res) => {
 
 // SHOW a page that shows the individual info of one bread type
 breads.get('/:id', (req, res) => {
-   
-   Bread.getAllBakedBy(`Ross`)
-      .then((foundBaker) => { 
-        // empty array
-        let breadsByBaker = []
-        // fills the array with only the values for name of bread
-        Object.values(foundBaker).forEach(key => breadsByBaker.push(key.name))
-        console.log(`Trying to find Ross: `, breadsByBaker)
+  
+  //  Bread.getAllBakedBy(`Ross`)
+  //     .then((foundBaker) => { 
+  //       // empty array
+  //       let breadsByBaker = []
+  //       // fills the array with only the values for name of bread
+  //       Object.values(foundBaker).forEach(key => breadsByBaker.push(key.name))
+  //       console.log(`Trying to find Ross: `, breadsByBaker)
 // still working on the static method: got an array of only  bread names, but it becomes undefined in show.jsx
         
         Bread.findById(req.params.id)
@@ -64,13 +70,12 @@ breads.get('/:id', (req, res) => {
             const bakedBy = foundBread.getBakedBy()
             console.log(bakedBy)
             res.render('show', {
-                  bread:foundBread,
-                  OtherBreads: breadsByBaker
+                  bread:foundBread
                 })
           })
         })
       
-    })
+
    
     
   
