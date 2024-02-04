@@ -6,8 +6,10 @@ const Baker = require(`../models/baker.js`)
 
 // INDEX show's a list of each bread name
 breads.get(`/`, (req, res)=>{
+
     // find helper method on bread model (mongoose/mongoDB)
     Bread.find()
+      .populate(`baker`)
       .then((foundBreads)=>{
         // render:to render the html on the page
         res.render(`index`, 
@@ -44,12 +46,17 @@ breads.get('/data/seed', (req, res) => {
 //EDIT a bread item.  takes you to a form to edit the info
 // EDIT
 breads.get('/:id/edit', (req, res) => {
-  Bread.findById(req.params.id)
-  .then((foundBread)=>{
-    res.render('edit', {
-      bread: foundBread,
+  Baker.find()
+    .then(foundBakers=>{
+      Bread.findById(req.params.id)
+      .then((foundBread)=>{
+        res.render('edit', {
+          bread: foundBread,
+          bakers: foundBakers
+        })
+      })
     })
-  })
+  
 })
 
 
@@ -66,6 +73,7 @@ breads.get('/:id', (req, res) => {
 // still working on the static method: got an array of only  bread names, but it becomes undefined in show.jsx
         
         Bread.findById(req.params.id)
+          .populate(`baker`)
           .then((foundBread)=>{
             const bakedBy = foundBread.getBakedBy()
             console.log(bakedBy)

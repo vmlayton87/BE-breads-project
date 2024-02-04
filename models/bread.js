@@ -18,7 +18,7 @@ const breadSchema = new Schema ({
 
 // helper methods done for each document/instance
 breadSchema.methods.getBakedBy = function(){
-  return `${this.name} was baked with love by ${this.baker}`
+  return `${this.name} was baked with love by ${this.baker.name}. ${this.baker.name} has been with us since ${this.baker.startDate.getFullYear()}`
 }
 
 breadSchema.statics.getAllBakedBy = function (bakerName) {
