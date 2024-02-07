@@ -21,10 +21,6 @@ breadSchema.methods.getBakedBy = function(){
   return `${this.name} was baked with love by ${this.baker.name}. ${this.baker.name} has been with us since ${this.baker.startDate.getFullYear()}`
 }
 
-breadSchema.statics.getAllBakedBy = function (bakerName) {
-  return this.find({baker: bakerName}, {_id:0, name:1})
-}
-
 // creating a model named Bread out of the schema
 const Bread = mongoose.model('Bread', breadSchema)
 

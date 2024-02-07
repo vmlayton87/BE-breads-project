@@ -26,7 +26,7 @@ breads.get(`/`, (req, res)=>{
     //res.send(Bread)
 })
 
-// NEW add places form
+// NEW add new bread form
 breads.get('/new', (req, res) => {
   Baker.find()
   .then(foundBakers => {

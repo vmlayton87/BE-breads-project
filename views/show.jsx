@@ -19,8 +19,7 @@ function Show ({bread}) {
         </p>
         <img src={bread.image} alt={bread.name} />
         <p>{bread.getBakedBy()}</p>
-        {/* Error when this runs: <p>Other breads made by {bread.baker}: </p> */}
-        
+              
 
         <li><a href="/breads">Go Home</a></li>
         
