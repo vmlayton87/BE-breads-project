@@ -23,7 +23,10 @@ baker.get(`/`, (req, res)=>{
 baker.get('/:id', (req, res) => {
         
     Baker.findById(req.params.id)
-      .populate(`breads`)
+      .populate({
+        path: `breads`,
+        options: {limit:5}
+      })
       .then((foundBaker)=>{
         res.render('bakerShow', { //can repopulate the original show page (should look into that)
             baker: foundBaker

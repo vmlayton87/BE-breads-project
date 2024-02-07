@@ -5,22 +5,16 @@ const Seed = require(`../models/seed.js`)
 const Baker = require(`../models/baker.js`)
 
 // INDEX show's a list of each baker and bread name
-breads.get(`/`, (req, res)=>{
-  Baker.find()
-    .then(foundBakers => {
-      // find helper method on bread model (mongoose/mongoDB)
-      Bread.find()
-      .populate(`baker`)
-      .then((foundBreads)=>{
-        // render:to render the html on the page
-        res.render(`index`, 
+breads.get(`/`, async (req, res)=>{
+  const foundBakers = await Baker.find()
+  const foundBreads = await Bread.find().populate(`baker`).limit(2).lean()
+  console.log(foundBreads)
+  res.render(`index`, 
         {
             breads: foundBreads,
             bakers: foundBakers,
             title: `Index Page`
         })
-      })
-    })
     
     // send: to send exactly what you see as text
     //res.send(Bread)
