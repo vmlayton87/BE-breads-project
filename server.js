@@ -15,7 +15,7 @@ const app = express()
 
 //maps multiple databases within the one connection
 // mongoose.createConnection(process.env.MONGO_URI,).asPromise(console.log(`connected to mongo: `, process.env.MONGO_URI))
-
+ 
 // I do believe this is the best practice for our assignment. but this will work for one database. the createconnection and as promise will work for multiple databases. 
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('connected to mongo: ', process.env.MONGO_URI))
 
